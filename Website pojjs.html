@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Optimized viewport to prevent accidental zooming on mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Classified: Top Secret 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Nunito', sans-serif;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; /* Removes blue tap flash on phones */
+    }
+
+    body {
+        background: linear-gradient(135deg, #ffd6e7, #c4e0f9, #e5d4ff);
+        background-size: 300% 300%;
+        animation: gradientShift 10s ease infinite;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        touch-action: none; /* Prevents pull-to-refresh and scrolling on mobile */
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="font-size: 24px;"><text y="20">✨</text></svg>'), auto;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .card {
+        width: 90%;
+        max-width: 450px;
+        min-height: 420px; /* Keeps card stable when button jumps around */
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 30px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    h1 {
+        color: #ff69a8;
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 900;
+    }
+
+    .bunny-container {
+        position: relative;
+        height: 90px;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+    .bunny {
+        font-size: 70px;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        animation: bounce 2s infinite;
+        transition: transform 0.1s;
+    }
+
+    .bunny:active {
+        transform: scale(0.8) translateY(10px);
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px) rotate(-5deg); }
+        50% { transform: translateX(5px) rotate(5deg); }
+        75% { transform: translateX(-5px) rotate(-5deg); }
+        100% { transform: translateX(0); }
+    }
+
+    .story-text {
+        font-size: 18px;
+        color: #555;
+        margin: 15px 0;
+        line-height: 1.6;
+        font-weight: 700;
+    }
+
+    .sub-text {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    button {
+        border: none;
+        padding: 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 700;
+        color: #444;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(255, 105, 168, 0.2);
+        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        z-index: 5;
+    }
+
+    button:hover {
+        transform: scale(1.05) translateY(-3px);
+        background: #ffb6d9;
+        color: white;
+        box-shadow: 0 8px 20px rgba(255, 105, 168, 0.4);
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+        .card { padding: 30px 20px; }
+        h1 { font-size: 24px; }
+        .story-text { font-size: 16px; }
+        .buttons { grid-template-columns: 1fr; /* Stacks buttons on small screens */ }
+        .kiss { font-size: 55px !important; /* Bigger kisses for phone thumbs */ }
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    /* Mini Game Elements */
+    .kiss {
+        position: absolute;
+        font-size: 45px;
+        cursor: pointer;
+        z-index: 5;
+        animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(110vh) scale(1) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-20vh) scale(1.5) rotate(360deg); opacity: 0; }
+    }
+
+    .sparkle {
+        position: absolute;
+        pointer-events: none;
+        animation: pop 0.6s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-size: 25px;
+        z-index: 20;
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0) rotate(0deg); opacity: 1; }
+        100% { transform: scale(2) rotate(90deg); opacity: 0; }
+    }
+
+    #score-board {
+        position: absolute;
+        top: 20px;
+        background: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: #ff69a8;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        z-index: 100;
+    }
+
+</style>
+</head>
+<body>
+
+<div id="score-board" class="hidden">Kisses Caught: <span id="score">0</span>/10</div>
+
+<div class="card" id="main-card">
+    
+    <!-- PHASE 1: The Introduction & Tickle Game -->
+    <div id="phase-1">
+        <div class="bunny-container" onclick="tickleBunny()">
+            <div class="bunny" id="bunny-emoji">🕵️‍♂️🐰</div>
+        </div>
+        <h1>Classified Mission</h1>
+        <div class="story-text" id="story-1">
+            Agent Barnaby the Bunny has hacked your screen. <br>
+            <strong>Mission:</strong> Investigate how cute you look today.
+        </div>
+        <div class="sub-text" id="sub-story-1">
+            (He needs security clearance. Tap to tickle him 5 times!)
+        </div>
+    </div>
+
+    <!-- PHASE 2: The Interrogation -->
+    <div id="phase-2" class="hidden">
+        <div class="bunny-container">
+            <div class="bunny">📋🐰</div>
+        </div>
+        <h1>Security Cleared! ✅</h1>
+        <div class="story-text">
+            Agent Barnaby demands to know:<br>What are you doing right now?
+        </div>
+        
+        <div class="buttons">
+            <button onclick="reply(0)">📚 Studying</button>
+            <button onclick="reply(1)">🍕 Eating</button>
+            <button onclick="reply(2)">😴 Sleeping</button>
+            <button onclick="reply(3)">🦹‍♀️ World Domination</button>
+            <button onclick="reply(4)">🎮 Gaming</button>
+            <button onclick="reply(5)">💬 Thinking of you!</button>
+        </div>
+    </div>
+
+    <!-- PHASE 3: The Reaction -->
+    <div id="phase-3" class="hidden">
+        <div class="bunny-container">
+            <div class="bunny" id="reaction-bunny">😲🐰</div>
+        </div>
+        <h1 id="reaction-title">Oh really?!</h1>
+        <div class="story-text" id="reaction-text">
+            Text goes here.
+        </div>
+        <div class="buttons" style="grid-template-columns: 1fr;">
+            <button onclick="startRunawayGame()">Wait, but do you miss me? 👀</button>
+        </div>
+    </div>
+
+    <!-- PHASE 4: The Runaway Button -->
+    <div id="phase-4" class="hidden">
+        <div class="bunny-container">
+            <div class="bunny">🥺🐰</div>
+        </div>
+        <h1>Be honest...</h1>
+        <div class="story-text">
+            Do you miss me right now?
+        </div>
+        
+        <div class="buttons" id="runaway-container">
+            <button onclick="startCatchGame()">YES! 🥰</button>
+            <button id="runaway-btn">No 😒</button>
+        </div>
+    </div>
+
+    <!-- PHASE 5: Catch the kisses -->
+    <div id="phase-5" class="hidden">
+        <div class="bunny-container">
+            <div class="bunny">🎉🐰</div>
+        </div>
+        <h1>YAY! I KNEW IT! ❤️</h1>
+        <div class="story-text" id="catch-text">
+            Barnaby is releasing the payload! <br>
+            <strong>Mini-Game:</strong> Pop 10 flying kisses!
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- PHASE 1: TICKLE THE BUNNY ---
+    let tickles = 0;
+    const bunnyEmoji = document.getElementById("bunny-emoji");
+    const subStory = document.getElementById("sub-story-1");
+
+    function tickleBunny() {
+        tickles++;
+        
+        // Mobile-friendly sparkle coordinates
+        const rect = bunnyEmoji.getBoundingClientRect();
+        createSparkle(rect.left + rect.width/2, rect.top + rect.height/2);
+        
+        bunnyEmoji.style.animation = "shake 0.3s";
+        setTimeout(() => bunnyEmoji.style.animation = "bounce 2s infinite", 300);
+
+        if(tickles === 1) { bunnyEmoji.innerText = "🤭🐰"; subStory.innerText = "Hehe! That tickles! (4 more)"; }
+        if(tickles === 2) { bunnyEmoji.innerText = "😆🐰"; subStory.innerText = "Stop it! I'm on duty! (3 more)"; }
+        if(tickles === 3) { bunnyEmoji.innerText = "😂🐰"; subStory.innerText = "HAHAHA! Okay okay! (2 more)"; }
+        if(tickles === 4) { bunnyEmoji.innerText = "🤣🐰"; subStory.innerText = "ALMOST THERE! (1 more)"; }
+        if(tickles === 5) {
+            document.getElementById("phase-1").classList.add("hidden");
+            document.getElementById("phase-2").classList.remove("hidden");
+            fireConfetti();
+        }
+    }
+
+    // --- PHASE 2: INTERROGATION RESPONSES ---
+    const messages = [
+        { title: "Brainiac! 🧠", text: "Caution, genius at work! Don't forget to take a break and stretch! ✨" },
+        { title: "BUNNY TAX! 🥕", text: "Agent Barnaby demands a 'Bunny Tax'! Surrender a bite of your food immediately! 🍕🔪" },
+        { title: "WITCHCRAFT! 🧙‍♀️", text: "Wait... how are you tapping this while sleeping?! You are incredibly talented! 👻" },
+        { title: "Evil Lair Ready 🌋", text: "I knew it. I'll get the evil lair ready. I call dibs on being your loyal sidekick! 🦹‍♂️" },
+        { title: "Player 1! 🎮", text: "Hope you're destroying your enemies! Remember to stay hydrated! 💦" },
+        { title: "Awwww! 💕", text: "Obviously. Who wouldn't be? 😏 (Just kidding... that literally made my whole day! 🌸)" }
+    ];
+
+    function reply(index) {
+        document.getElementById("phase-2").classList.add("hidden");
+        document.getElementById("phase-3").classList.remove("hidden");
+        
+        document.getElementById("reaction-title").innerText = messages[index].title;
+        document.getElementById("reaction-text").innerText = messages[index].text;
+        
+        fireConfetti();
+    }
+
+    // --- PHASE 4: THE RUNAWAY BUTTON (Mobile Optimized) ---
+    function startRunawayGame() {
+        document.getElementById("phase-3").classList.add("hidden");
+        document.getElementById("phase-4").classList.remove("hidden");
+    }
+
+    const noBtn = document.getElementById("runaway-btn");
+    let dodges = 0;
+    
+    function teleportButton(e) {
+        // Prevent physical tap on mobile from registering as a click before it jumps
+        if (e && e.type === 'touchstart') {
+            e.preventDefault(); 
+        }
+
+        dodges++;
+
+        // After 6 tries, let her win
+        if (dodges > 6) {
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '0';
+            noBtn.style.top = '0';
+            noBtn.innerText = "Ugh, fine! 🙄";
+            
+            noBtn.removeEventListener("mouseenter", teleportButton);
+            noBtn.removeEventListener("touchstart", teleportButton);
+            
+            // Add final click event
+            noBtn.onclick = () => {
+                noBtn.innerText = "NICE TRY! Still counting as a YES! 😂";
+                setTimeout(startCatchGame, 1200);
+            };
+            return;
+        }
+
+        const card = document.getElementById("main-card");
+        const cardRect = card.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
+
+        // Switch to absolute positioning inside the card for wild jumping
+        if (noBtn.style.position !== 'absolute') {
+            noBtn.style.position = 'absolute';
+            noBtn.style.zIndex = '100';
+            noBtn.style.transition = 'left 0.15s ease, top 0.15s ease';
+        }
+
+        // Calculate maximum safe boundaries so it doesn't leave the white card
+        const maxX = cardRect.width - btnRect.width - 20;
+        const maxY = cardRect.height - btnRect.height - 20;
+
+        const randomX = Math.max(10, Math.random() * maxX);
+        const randomY = Math.max(10, Math.random() * maxY);
+
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
+    }
+    
+    noBtn.addEventListener("mouseenter", teleportButton);
+    // passive: false is required to allow preventDefault() on touch screens
+    noBtn.addEventListener("touchstart", teleportButton, {passive: false}); 
+
+    // --- PHASE 5: CATCH THE KISSES GAME ---
+    let score = 0;
+    let gameInterval;
+
+    function startCatchGame() {
+        document.getElementById("phase-4").classList.add("hidden");
+        document.getElementById("phase-5").classList.remove("hidden");
+        document.getElementById("score-board").classList.remove("hidden");
+        
+        // Spawn kisses every 500ms
+        gameInterval = setInterval(spawnKiss, 500);
+    }
+
+    function spawnKiss() {
+        const kiss = document.createElement("div");
+        kiss.className = "kiss";
+        kiss.innerHTML = ["😘", "💖", "🥰", "💌"][Math.floor(Math.random() * 4)];
+        
+        kiss.style.left = Math.random() * 85 + "vw";
+        kiss.style.animationDuration = (2.5 + Math.random() * 2) + "s"; 
+        
+        // Handle both mouse and touch
+        kiss.onmousedown = () => catchKiss(kiss);
+        kiss.ontouchstart = (e) => { e.preventDefault(); catchKiss(kiss); };
+
+        document.body.appendChild(kiss);
+        setTimeout(() => kiss.remove(), 4500);
+    }
+
+    function catchKiss(kiss) {
+        const rect = kiss.getBoundingClientRect();
+        createSparkle(rect.left, rect.top);
+        kiss.remove();
+        score++;
+        document.getElementById("score").innerText = score;
+
+        if (score >= 10) {
+            clearInterval(gameInterval);
+            document.getElementById("score-board").classList.add("hidden");
+            document.getElementById("catch-text").innerHTML = "<strong>MISSION ACCOMPLISHED!</strong><br>You caught all the love! Barnaby says you are officially the best. Have an amazing day cutie! 💖🕵️‍♂️🐰";
+            fireConfetti();
+        }
+    }
+
+    // --- UTILITIES ---
+    function createSparkle(x, y) {
+        for(let i=0; i<5; i++) {
+            const s = document.createElement("div");
+            s.className = "sparkle";
+            s.innerHTML = ["✨","💖","🌸","⭐"][Math.floor(Math.random()*4)];
+            s.style.left = (x + (Math.random() * 60 - 30)) + "px";
+            s.style.top = (y + (Math.random() * 60 - 30)) + "px";
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 600);
+        }
+    }
+
+    function fireConfetti() {
+        for(let j=0; j<20; j++){
+            setTimeout(() => {
+                createSparkle(
+                    (window.innerWidth/2) + (Math.random() * 300 - 150), 
+                    (window.innerHeight/2) + (Math.random() * 300 - 150)
+                );
+            }, j * 40);
+        }
+    }
+
+    // Floating background shapes
+    for(let i=0; i<15; i++) {
+        let bgElement = document.createElement("div");
+        bgElement.className = "kiss";
+        bgElement.innerHTML = Math.random() > 0.5 ? "☁️" : "✨";
+        bgElement.style.left = Math.random() * 100 + "vw";
+        bgElement.style.animationDuration = (10 + Math.random() * 20) + "s";
+        bgElement.style.opacity = "0.3";
+        bgElement.style.zIndex = "1";
+        bgElement.style.pointerEvents = "none";
+        document.body.appendChild(bgElement);
+    }
+
+</script>
+</body>
+</html>
